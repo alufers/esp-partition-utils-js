@@ -1,0 +1,15 @@
+# Node
+node_modules/
+dist/
+coverage/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/

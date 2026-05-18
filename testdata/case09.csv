@@ -1,0 +1,5 @@
+# Name, Type, SubType, Offset, Size, Flags
+nvs,data,nvs,,0x3000,
+custom,data,0xff,,0x40000,encrypted
+factory,app,factory,,1M,
+backup,data,spiffs,,1M,

@@ -1,0 +1,5 @@
+# Name, Type, SubType, Offset, Size, Flags
+nvs_ro,data,nvs,,0x2000,readonly
+phy,data,phy,,0x1000,
+factory,app,factory,,1M,
+assets,data,littlefs,,384K,encrypted

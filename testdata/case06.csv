@@ -1,0 +1,6 @@
+# Name, Type, SubType, Offset, Size, Flags
+nvs,data,nvs,,0x5000,
+teeotadata,data,tee_ota,,0x2000,
+tee0,app,tee_0,,256K,
+tee1,app,tee_1,,256K,
+main,app,factory,,1M,

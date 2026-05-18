@@ -1,0 +1,6 @@
+# Name, Type, SubType, Offset, Size, Flags
+cfg,data,nvs,0x9000,0x3000,
+phy,data,phy,0xC000,0x1000,
+app0,app,ota_0,0x10000,0x180000,
+app1,app,ota_1,0x190000,0x180000,
+fs,data,spiffs,0x310000,0x50000,
