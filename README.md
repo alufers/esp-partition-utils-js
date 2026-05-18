@@ -39,6 +39,7 @@ npm test
 npm run lint
 npm run build
 ```
+
 ## License
 
 Apache-2.0, see [./LICENSE](./LICENSE). This project includes the original Python partition table parser/generator pulled from esp-idf under `./python_original`, which is used during unit-tests. It is licensed under the same license.

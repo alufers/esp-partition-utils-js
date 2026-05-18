@@ -17,7 +17,12 @@ import {
 } from "./parser-utils.js";
 import type { EncodePartitionTableOptions, Partition } from "./types.js";
 
-function parseAddress(field: string, type: number, subtype: number, options: ReturnType<typeof resolveOptions>): number | null {
+function parseAddress(
+  field: string,
+  type: number,
+  subtype: number,
+  options: ReturnType<typeof resolveOptions>,
+): number | null {
   if (type === BOOTLOADER_TYPE) {
     if (subtype === SUBTYPES[type].primary) {
       if (options.primaryBootloaderOffset === null) {
@@ -44,7 +49,11 @@ function parseAddress(field: string, type: number, subtype: number, options: Ret
   return parseIntLike(trimmed);
 }
 
-function parseSize(field: string, type: number, options: ReturnType<typeof resolveOptions>): number | null {
+function parseSize(
+  field: string,
+  type: number,
+  options: ReturnType<typeof resolveOptions>,
+): number | null {
   if (type === BOOTLOADER_TYPE) {
     if (options.primaryBootloaderOffset === null) {
       throw new Error("Primary bootloader offset is not defined");
@@ -66,7 +75,10 @@ export function fromCSV(data: string): Partition[] {
   return fromCSVWithOptions(data, {});
 }
 
-export function fromCSVWithOptions(data: string, options: EncodePartitionTableOptions): Partition[] {
+export function fromCSVWithOptions(
+  data: string,
+  options: EncodePartitionTableOptions,
+): Partition[] {
   const resolved = resolveOptions(options);
   const lines = data.split(/\r?\n/);
   const parsed: Partition[] = [];
@@ -91,7 +103,13 @@ export function fromCSVWithOptions(data: string, options: EncodePartitionTableOp
     const type = parseIntLike(typeField, TYPES);
 
     const subtypeField = fields[2];
-    const subtype = subtypeField ? parseIntLike(subtypeField, SUBTYPES[type] ?? {}) : type === TYPES.app ? (() => { throw new Error("App partition cannot have empty subtype"); })() : SUBTYPES[TYPES.data].undefined;
+    const subtype = subtypeField
+      ? parseIntLike(subtypeField, SUBTYPES[type] ?? {})
+      : type === TYPES.app
+        ? (() => {
+            throw new Error("App partition cannot have empty subtype");
+          })()
+        : SUBTYPES[TYPES.data].undefined;
 
     const offset = parseAddress(fields[3], type, subtype, resolved);
     const size = parseSize(fields[4], type, resolved);
@@ -140,7 +158,7 @@ function lookupSubtype(type: string | number, subtype: string | number): string 
     return subtype;
   }
 
-  const typeNum = typeof type === "number" ? type : TYPES[type] ?? Number.NaN;
+  const typeNum = typeof type === "number" ? type : (TYPES[type] ?? Number.NaN);
   if (Number.isNaN(typeNum)) {
     return String(subtype);
   }
@@ -165,14 +183,16 @@ export function toCSV(partitions: Partition[]): string {
     if (p.offset === null || p.size === null) {
       throw new Error(`Partition ${p.name} has unresolved fields`);
     }
-    rows.push([
-      p.name,
-      lookupType(p.type),
-      lookupSubtype(p.type, p.subtype),
-      formatAddress(p.offset, false),
-      formatAddress(p.size, true),
-      flagsToCsv(p.flags),
-    ].join(","));
+    rows.push(
+      [
+        p.name,
+        lookupType(p.type),
+        lookupSubtype(p.type, p.subtype),
+        formatAddress(p.offset, false),
+        formatAddress(p.size, true),
+        flagsToCsv(p.flags),
+      ].join(","),
+    );
   }
   return `${rows.join("\n")}\n`;
 }

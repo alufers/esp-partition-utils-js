@@ -27,7 +27,7 @@ export function md5(data: Uint8Array): Uint8Array {
   const originalLength = data.length;
   const bitLength = originalLength * 8;
 
-  const padLength = ((56 - ((originalLength + 1) % 64)) + 64) % 64;
+  const padLength = (56 - ((originalLength + 1) % 64) + 64) % 64;
   const totalLength = originalLength + 1 + padLength + 8;
 
   const buffer = new Uint8Array(totalLength);
